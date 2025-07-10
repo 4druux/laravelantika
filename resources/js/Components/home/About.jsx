@@ -1,7 +1,9 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { FaPalette, FaTags, FaLock, FaBoxOpen } from "react-icons/fa";
-import { containerVariants, itemVariants } from "../../utils/animations";
+import { containerVariants, itemVariants } from "@/utils/animations";
+
+const desktopWave = "/images/wavedekstop.png";
+const mobileWave = "/images/wavemobile.png";
 
 const features = [
     {
@@ -32,27 +34,25 @@ const features = [
 
 export default function About() {
     return (
-        <section className="relative w-full overflow-hidden flex items-center justify-center my-12 min-h-[90vh]">
+        <section className="relative w-full py-24 md:py-32 lg:py-40 xl:py-48 mt-16 overflow-hidden">
             <div className="absolute inset-0 w-full h-full z-0">
-                <div className="hidden md:block">
-                    <img
-                        src="/images/wavedekstop.png"
-                        alt="Abstract wave background for desktop"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
+                <div
+                    className="hidden md:block w-full h-full bg-cover bg-no-repeat bg-top"
+                    style={{
+                        backgroundImage: `url(${desktopWave})`,
+                    }}
+                ></div>
 
-                <div className="block md:hidden">
-                    <img
-                        src="/images/wavemobile.png"
-                        alt="Abstract wave background for mobile"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
+                <div
+                    className="block md:hidden w-full h-full bg-cover bg-no-repeat bg-top"
+                    style={{
+                        backgroundImage: `url(${mobileWave})`,
+                    }}
+                ></div>
             </div>
 
             <motion.div
-                className="relative z-10 text-center text-white max-w-4xl mx-auto px-4 py-24 md:py-32"
+                className="relative z-10 text-center text-white max-w-4xl mx-auto px-4"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
