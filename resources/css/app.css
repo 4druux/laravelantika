@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    font-family: var(--font-poppins), sans-serif;
+}
+
+:root {
+    --font-poppins: "Poppins", sans-serif;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding-left: 12vw;
+        padding-right: 12vw;
+    }
+}
+
+@media (min-width: 1920px) {
+    .container {
+        padding-left: 8vw;
+        padding-right: 8vw;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #232a34;
+}
+
+@keyframes bounce-delay {
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+.custom-toast {
+    font-size: 13px;
+    font-weight: 450;
+    border-radius: 999px !important;
+}
