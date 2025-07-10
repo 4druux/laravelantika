@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { router, Link } from "@inertiajs/react"; 
 import toast from "react-hot-toast";
 import { Loader2, Eye, EyeOff, AlertCircle } from "lucide-react";
 import DotLoader from "../loading/DotLoader";
@@ -23,7 +23,6 @@ export default function SignUpForm() {
   const [canRegister, setCanRegister] = useState(false);
   const [errors, setErrors] = useState({});
   const [authError, setAuthError] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -78,7 +77,7 @@ export default function SignUpForm() {
         password_confirmation: passwordConfirmation,
       });
       toast.success(response.message);
-      navigate("/login");
+      router.visit("/login");
     } catch (error) {
       if (error.message && typeof error.message === "string") {
         if (error.message.includes("Email ini sudah terdaftar.")) {
@@ -116,7 +115,7 @@ export default function SignUpForm() {
   return (
     <div className="flex items-center justify-center min-h-screen px-2">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl border border-gray-100 shadow-md">
-        <Link to="/">
+        <Link href="/">
           <img
             src="/images/logo.png"
             alt="logo antika studio"
@@ -272,7 +271,7 @@ export default function SignUpForm() {
         <p className="text-sm text-center text-gray-600">
           Sudah punya akun?{" "}
           <Link
-            to="/login"
+            href="/login" 
             className="font-medium text-teal-600 hover:underline"
           >
             Masuk Sekarang

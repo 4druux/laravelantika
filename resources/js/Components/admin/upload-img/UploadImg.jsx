@@ -1,9 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { router } from "@inertiajs/react";
 import toast from "react-hot-toast";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 import { useDropzone } from "react-dropzone";
-import { canvasPreview } from "./canvasPreview";
 import "react-image-crop/dist/ReactCrop.css";
 import {
     UploadCloud,
@@ -19,6 +18,7 @@ import { containerVariants, itemVariants } from "../../../utils/animations";
 import DotLoader from "../../loading/DotLoader";
 import { uploadImage } from "../../../utils/api";
 import { useAuth } from "../../../Context/useAuth";
+import { canvasPreview } from "./CanvasPreview";
 
 const resizeImage = (file) => {
     const MAX_DIMENSION = 1920;
@@ -171,7 +171,6 @@ const CroppedGallery = ({
 );
 
 export default function UploadImg() {
-    const navigate = useNavigate();
     const { token } = useAuth();
     const [crop, setCrop] = useState();
     const [completedCrop, setCompletedCrop] = useState();
@@ -319,16 +318,16 @@ export default function UploadImg() {
     };
 
     function dataURLtoFile(dataurl, filename) {
-        let arr = dataurl.split(","),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], filename, { type: mime });
+    let arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
     }
+    return new File([u8arr], filename, { type: mime });
+}
 
     async function handleUploadAll() {
         if (croppedImages.length === 0) {
@@ -375,7 +374,7 @@ export default function UploadImg() {
             toast.success(`${successfulUploads} gambar berhasil di-upload.`);
 
             if (failedUploads.length === 0) {
-                navigate("/admin/kelola-galeri");
+                router.visit("/admin/kelola-galeri");
             }
         }
     }

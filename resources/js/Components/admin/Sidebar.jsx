@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, usePage } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
     CalendarClock,
@@ -14,20 +14,13 @@ import DotLoader from "../loading/DotLoader";
 import { useAuth } from "../../Context/useAuth";
 
 const NavLink = ({ item, expanded, onClick }) => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const isActive = location.pathname === item.href;
-
-    const handleClick = (e) => {
-        e.preventDefault();
-        navigate(item.href);
-        onClick();
-    };
+    const { url } = usePage();
+    const isActive = url.startsWith(item.href);
 
     return (
         <Link
-            to={item.href}
-            onClick={handleClick}
+            href={item.href}
+            onClick={onClick}
             className={`
         relative flex items-center text-sm font-medium rounded-md cursor-pointer
         transition-colors group w-full

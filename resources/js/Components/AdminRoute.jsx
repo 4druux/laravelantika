@@ -14,20 +14,11 @@ const AdminRoute = () => {
     }
 
     if (!user) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <Navigate to="/login" replace />
-                <DotLoader />
-            </div>
-        );
+        return <Navigate to="/login" replace />;
     }
 
     if (user.role !== "admin") {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <Navigate to="/" replace /> <DotLoader />
-            </div>
-        );
+        return <Navigate to="/" replace />;
     }
 
     return <Outlet />;

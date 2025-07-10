@@ -1,6 +1,7 @@
-import { X, Package, FileText, CalendarClock, User, Phone } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import { schedulePackages } from "@/Data/packages";
+import { AnimatePresence, motion } from "framer-motion";
+import { X, Package, FileText, CalendarClock, User, Phone } from "lucide-react";
 
 const formatSessionDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -43,6 +44,13 @@ const StatusBadge = ({ status }) => {
 
 export default function BookingModal({ booking, isOpen, onClose }) {
     if (!booking) return null;
+
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, []);
 
     const pkg = schedulePackages.find((p) => p.title === booking.paket);
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 import { Loader2, Mail, AlertCircle, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -42,7 +42,7 @@ export default function ResetPasswordForm() {
   return (
     <div className="flex items-center justify-center min-h-screen px-2">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl border border-gray-100 shadow-md">
-        <Link to="/">
+        <Link href="/">
           <img
             src="/images/logo.png"
             alt="logo antika studio"
@@ -121,7 +121,7 @@ export default function ResetPasswordForm() {
         <p className="text-sm text-center text-gray-600">
           Ingat password Anda?{" "}
           <Link
-            to="/login"
+            href="/login"
             className="font-medium text-teal-600 hover:underline"
           >
             Login di sini

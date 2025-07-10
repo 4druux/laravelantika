@@ -9,11 +9,11 @@ import { fetcher, deleteImage } from "../../../utils/api";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../Context/useAuth";
 import useSWR from "swr";
-import { useLocation } from "react-router-dom";
+import { usePage } from "@inertiajs/react";
 
 export default function KelolaGaleri() {
     const { token } = useAuth();
-    const location = useLocation();
+    const { url } = usePage();
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -43,7 +43,7 @@ export default function KelolaGaleri() {
         if (token) {
             mutate();
         }
-    }, [token, mutate, location.pathname]);
+    }, [token, mutate, url]);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -100,7 +100,12 @@ export default function KelolaGaleri() {
 
     const closeModal = () => setModalOpen(false);
 
-    const handleDelete = async (filename) => {
+    const handleDelete = async (imageId, filename) => {
+        if (typeof imageId === "undefined") {
+            toast.error("Gagal menghapus: ID gambar tidak valid.");
+            return;
+        }
+
         const confirmed = await SweetAlert({
             title: "Konfirmasi Hapus",
             message: `Yakin ingin menghapus <b>${filename}</b>?`,
@@ -112,19 +117,17 @@ export default function KelolaGaleri() {
         setIsDeleting(true);
         try {
             await mutate(
-                async (currentData) => {
+                (currentData) => {
                     if (!currentData) return { images: [], categories: [] };
                     const updatedImages = currentData.images.filter(
-                        (img) => img.filename !== filename
+                        (img) => img.id !== imageId
                     );
                     return { ...currentData, images: updatedImages };
                 },
-                {
-                    revalidate: false,
-                }
+                { revalidate: false }
             );
 
-            await deleteImage(filename, token);
+            await deleteImage(imageId, token);
 
             await mutate();
 
@@ -136,7 +139,6 @@ export default function KelolaGaleri() {
             });
         } catch (err) {
             await mutate();
-
             await SweetAlert({
                 title: "Error",
                 message: err.message || "Gagal menghapus gambar.",
@@ -301,7 +303,10 @@ export default function KelolaGaleri() {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                handleDelete(image.filename);
+                                                handleDelete(
+                                                    image.id,
+                                                    image.filename
+                                                );
                                             }}
                                             className="p-3 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 hover:bg-red-600"
                                             title="Hapus Gambar"

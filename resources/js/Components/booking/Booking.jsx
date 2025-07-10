@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import {
@@ -18,8 +18,7 @@ import BookingNotFound from "./BookingNotFound";
 import { containerVariants, itemVariants } from "../../utils/animations";
 
 export default function Booking() {
-    const [searchParams] = useSearchParams();
-    const bookingId = searchParams.get("id");
+    const bookingId = new URLSearchParams(window.location.search).get("id");
 
     const [booking, setBooking] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -74,7 +73,7 @@ export default function Booking() {
     if (loading) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-                <DotLoader text="Memuat detail booking..." />
+                <DotLoader />
             </div>
         );
     }
@@ -244,7 +243,7 @@ export default function Booking() {
                     variants={itemVariants}
                 >
                     <Link
-                        to="/"
+                        href="/"
                         className="border border-teal-500 text-teal-500 text-sm font-semibold rounded-full px-6 py-3 hover:bg-teal-50 transition-colors"
                     >
                         Kembali

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { router } from "@inertiajs/react";
 import ButtonTextFlip from "../button/ButtonTextFlip";
 import Tittle from "../text/Tittle";
 import Description from "../text/Description";
@@ -8,7 +8,7 @@ import { schedulePackages } from "../../Data/packages";
 import { containerVariants, itemVariants } from "../../utils/animations";
 
 export default function Schedule() {
-    const navigate = useNavigate();
+  
 
     return (
         <section id="schedule" className="pt-12 md:pt-24">
@@ -74,7 +74,7 @@ export default function Schedule() {
 
                                 <ButtonTextFlip
                                     onClick={() =>
-                                        navigate(`/formulir?paket=${pkg.query}`)
+                                        router.visit(`/formulir?paket=${pkg.query}`)
                                     }
                                     label="Booking Sekarang"
                                     hoverLabel="Booking Sekarang"

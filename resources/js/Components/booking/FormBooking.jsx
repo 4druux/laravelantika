@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link, router } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { ArrowLeft, Loader2 } from "lucide-react";
@@ -29,9 +29,7 @@ const formatPhoneNumber = (value) => {
 };
 
 export default function FormBooking() {
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const paketQuery = searchParams.get("paket");
+    const paketQuery = new URLSearchParams(window.location.search).get("paket");
 
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -160,7 +158,7 @@ export default function FormBooking() {
         try {
             const result = await createBooking(payload);
             toast.success(result.message);
-            navigate(`/booking?id=${result.booking.public_id}`, {
+            router.visit(`/booking?id=${result.booking.public_id}`, {
                 state: { booking: result.booking },
             });
         } catch (error) {
@@ -204,7 +202,7 @@ export default function FormBooking() {
             >
                 <motion.div variants={itemVariants}>
                     <div className="flex items-center text-gray-700 mb-2">
-                        <Link to="/#schedule">
+                        <Link href="/#schedule">
                             <ArrowLeft className="inline-block mr-1 cursor-pointer hover:scale-105 transition-transform duration-300" />
                         </Link>
                         <h2 className="text-lg lg:text-xl font-semibold">

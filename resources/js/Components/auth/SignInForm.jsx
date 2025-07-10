@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 import { Loader2, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useAuth } from "../../Context/useAuth";
 import { checkAuthStatus } from "../../utils/api";
@@ -81,7 +81,7 @@ export default function SignInForm() {
     return (
         <div className="flex items-center justify-center min-h-screen px-2">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl border border-gray-100 shadow-md">
-                <Link to="/">
+                <Link href="/">
                     <img
                         src="/images/logo.png"
                         alt="logo antika studio"
@@ -160,7 +160,7 @@ export default function SignInForm() {
                         )}
                     </div>
                     <p className="text-sm text-end font-medium text-teal-600 my-2 hover:underline">
-                        <Link to="/forgot-password">lupa kata sandi?</Link>
+                        <Link href="/forgot-password">lupa kata sandi?</Link>
                     </p>
                     <div className="flex justify-center pt-2">
                         <button
@@ -183,7 +183,7 @@ export default function SignInForm() {
                     <p className="text-sm text-center text-gray-600">
                         Tidak punya akun?{" "}
                         <Link
-                            to="/register"
+                            href="/register"
                             className="font-medium text-teal-600 hover:underline"
                         >
                             Daftar Sekarang

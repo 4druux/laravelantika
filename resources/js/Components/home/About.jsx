@@ -32,7 +32,7 @@ const features = [
 
 export default function About() {
   return (
-    <section className="relative w-full py-24 md:py-32 lg:py-40 xl:py-48 mt-16 overflow-hidden">
+    <section className="relative w-full py-24 md:py-32 lg:py-40 xl:py-42 mt-16 overflow-hidden">
       <div className="absolute inset-0 w-full h-full z-0">
         <div className="hidden md:block">
           <img

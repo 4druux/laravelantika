@@ -31,5 +31,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index']);
     Route::patch('/bookings/{public_id}/status', [BookingController::class, 'updateStatus']);
     Route::post('/gallery', [GalleryController::class, 'store']);
-    Route::delete('/gallery/{filename}', [GalleryController::class, 'destroy']);
+    Route::delete('/gallery/{id}', [GalleryController::class, 'destroy']);
 });

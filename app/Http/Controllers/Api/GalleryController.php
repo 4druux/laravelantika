@@ -55,11 +55,12 @@ class GalleryController extends Controller
         return response()->json($gallery, 201);
     }
 
-    public function destroy($filename)
+   public function destroy($id)
     {
-        $image = Gallery::where('filename', $filename)->firstOrFail();
+        $image = Gallery::findOrFail($id);
         
         Storage::disk('public')->delete($image->path);
+        
         $image->delete();
 
         return response()->json(['message' => 'Gambar berhasil dihapus.']);
