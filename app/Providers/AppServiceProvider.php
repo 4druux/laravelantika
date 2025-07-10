@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use App\Notifications\ResetPasswordResend;
+use Illuminate\Support\Facades\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +23,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        ResetPasswordResend::createUrlUsing(function ($notifiable, $token) {
+            return URL::temporarySignedRoute(
+                'password.reset',
+                now()->addMinutes(config('auth.passwords.users.expire')),
+                [
+                    'token' => $token,
+                    'email' => $notifiable->getEmailForPasswordReset(),
+                ]
+            );
+        });
     }
 }

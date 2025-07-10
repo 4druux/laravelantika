@@ -9,6 +9,7 @@ import { createInertiaApp } from "@inertiajs/react";
 import MainLayout from "./Layouts/MainLayout";
 import AdminLayout from "./Layouts/AdminLayout";
 import { AuthProvider } from "./Context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -30,7 +31,13 @@ createInertiaApp({
         const root = createRoot(el);
         root.render(
             <AuthProvider>
-                <App {...props} />
+                <App {...props} /> 
+                <Toaster
+                    position="top-right"
+                    reverseOrder={true}
+                    duration={5000}
+                    toastOptions={{ className: "custom-toast" }}
+                />
             </AuthProvider>
         );
     },

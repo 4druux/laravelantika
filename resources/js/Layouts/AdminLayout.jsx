@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { router } from "@inertiajs/react";
 import Sidebar from "@/Components/admin/Sidebar";
-import { Toaster } from "react-hot-toast";
 import { useAuth } from "@/Context/useAuth";
 import DotLoader from "@/Components/loading/DotLoader";
 
@@ -30,12 +29,6 @@ export default function AdminLayout({ children }) {
 
     return (
         <>
-            <Toaster
-                position="top-right"
-                reverseOrder={true}
-                duration={5000}
-                toastOptions={{ className: "custom-toast" }}
-            />
             <div className="flex min-h-screen bg-gray-50">
                 <Sidebar
                     expanded={desktopExpanded}
