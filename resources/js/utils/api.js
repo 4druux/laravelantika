@@ -2,10 +2,10 @@
 
 import axios from "axios";
 
-const API_BASE_URL =
-    import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+const API_BASE_URL = `${window.location.origin}/api`;
 
 const handleAxiosResponse = (response) => response.data;
+const ensureCsrfCookie = () => axios.get("/sanctum/csrf-cookie");
 
 export const fetcher = ([url, token]) => {
     const headers = {
@@ -21,31 +21,39 @@ export const fetcher = ([url, token]) => {
 
 const handleAxiosError = (error) => {
     if (error.response && error.response.data) {
-        // Mengambil pesan error dari backend
         const errorData = error.response.data;
-        const message = errorData.message || "Terjadi kesalahan.";
 
-        if (error.response.status === 422 && errorData.errors) {
-            // Mengambil error validasi pertama
-            const firstError = Object.values(errorData.errors)[0][0];
-            throw new Error(firstError || message);
+        if (
+            error.response.status === 422 &&
+            (errorData.errors || errorData.email)
+        ) {
+            const err = new Error("Data yang diberikan tidak valid.");
+
+            if (errorData.errors) {
+                err.errors = errorData.errors;
+            } else if (errorData.email) {
+                err.errors = { email: errorData.email };
+            }
+            throw err;
         }
+
+        const message = errorData.message || "Terjadi kesalahan pada server.";
         throw new Error(message);
     }
-    // Error jaringan atau lainnya
     throw new Error(error.message || "Tidak dapat terhubung ke server.");
 };
 
-// auth
 // Auth
-export const login = (credentials) => {
+export const login = async (credentials) => {
+    await ensureCsrfCookie();
     return axios
         .post(`${API_BASE_URL}/auth/login`, credentials)
         .then(handleAxiosResponse)
         .catch(handleAxiosError);
 };
 
-export const register = (credentials) => {
+export const register = async (credentials) => {
+    await ensureCsrfCookie();
     return axios
         .post(`${API_BASE_URL}/auth/register`, credentials)
         .then(handleAxiosResponse)
@@ -65,7 +73,8 @@ export const logout = (token) => {
         .catch(handleAxiosError);
 };
 
-export const forgotPassword = (email) => {
+export const forgotPassword = async (email) => {
+    await ensureCsrfCookie();
     return axios
         .post(`${API_BASE_URL}/auth/forgot-password`, { email })
         .then(handleAxiosResponse)

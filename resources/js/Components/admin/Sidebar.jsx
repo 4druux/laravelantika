@@ -215,7 +215,7 @@ export default function Sidebar({
                                 <img
                                     src="/images/logo.png"
                                     alt="logo antika studio"
-                                    className="w-[120px] h-[24px]"
+                                    className="w-[100px] md:w-[150px] h-auto"
                                 />
                                 <button
                                     onClick={() => setMobileOpen(false)}

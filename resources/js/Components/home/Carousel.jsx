@@ -5,6 +5,7 @@ import {
     carouselImageVariants,
 } from "../../utils/animations";
 import { FaWhatsapp } from "react-icons/fa";
+import ButtonAnimation from "../button/ButtonAnimation";
 
 export default function Carousel() {
     return (
@@ -45,27 +46,12 @@ export default function Carousel() {
                         </p>
 
                         <div className="flex space-x-4 justify-center md:justify-start">
-                            <a
-                                to="#schedule"
-                                className="relative inline-flex items-center justify-center py-3 px-6 rounded-full overflow-hidden bg-white shadow-md"
-                            >
-                                <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300">
-                                    <span className="text-teal-500 text-sm font-semibold">
-                                        Booking Sekarang
-                                    </span>
-                                </div>
-                                <div
-                                    className="absolute inset-0 bg-gradient-to-br from-teal-200 via-teal-700 to-teal-400 z-10 flex items-center justify-center cursor-pointer"
-                                    style={{ opacity: 0 }}
-                                >
-                                    <span className="font-semibold text-white text-sm">
-                                        Booking Sekarang?
-                                    </span>
-                                </div>
-                                <span className="invisible text-sm font-semibold">
-                                    Booking Sekarang?
-                                </span>
-                            </a>
+                            <ButtonAnimation
+                                href="#schedule"
+                                label="Booking Sekarang"
+                                hoverLabel="Booking Sekarang?"
+                                className="shadow-md"
+                            />
                             <button
                                 onClick={() =>
                                     window.open(

@@ -21,6 +21,7 @@ export default function KelolaGaleri() {
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(10);
 
     const scrollContainerRef = useRef(null);
     const btnRefs = useRef([]);
@@ -85,6 +86,7 @@ export default function KelolaGaleri() {
 
     const handleCategoryClick = (category, idx) => {
         setSelectedCategory(category);
+        setVisibleCount(10);
         const c = scrollContainerRef.current;
         const b = btnRefs.current[idx];
         if (c && b) {
@@ -267,7 +269,7 @@ export default function KelolaGaleri() {
                     )}
                 </div>
                 <motion.div
-                    key={selectedCategory + filteredImages.length}
+                    key={selectedCategory + visibleCount}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-min grid-flow-dense"
                     variants={containerVariants}
                     initial="hidden"
@@ -279,51 +281,71 @@ export default function KelolaGaleri() {
                             ".
                         </div>
                     ) : (
-                        filteredImages.map((image, index) => {
-                            const aspectRatio = image.aspect_ratio || 1;
-                            let rowSpan = Math.round((1 / aspectRatio) * 20);
+                        filteredImages
+                            .slice(0, visibleCount)
+                            .map((image, index) => {
+                                const aspectRatio = image.aspect_ratio || 1;
+                                let rowSpan = Math.round(
+                                    (1 / aspectRatio) * 20
+                                );
 
-                            if (window.innerWidth < 768 && aspectRatio < 1) {
-                                rowSpan = Math.min(rowSpan, 20);
-                            }
-                            return (
-                                <motion.div
-                                    key={image.id}
-                                    className={`relative group overflow-hidden rounded-lg shadow-sm cursor-pointer`}
-                                    style={{ gridRowEnd: `span ${rowSpan}` }}
-                                    variants={itemVariants}
-                                    onClick={() => openModal(index)}
-                                >
-                                    <img
-                                        src={image.url}
-                                        alt={image.filename}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDelete(
-                                                    image.id,
-                                                    image.filename
-                                                );
-                                            }}
-                                            className="p-3 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 hover:bg-red-600"
-                                            title="Hapus Gambar"
-                                        >
-                                            <Trash2 size={20} />
-                                        </button>
-                                    </div>
-                                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
-                                        <p className="text-white text-xs font-medium truncate">
-                                            {image.categories?.join(", ")}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            );
-                        })
+                                if (
+                                    window.innerWidth < 768 &&
+                                    aspectRatio < 1
+                                ) {
+                                    rowSpan = Math.min(rowSpan, 20);
+                                }
+                                return (
+                                    <motion.div
+                                        key={image.id}
+                                        className={`relative group overflow-hidden rounded-lg shadow-sm cursor-pointer`}
+                                        style={{
+                                            gridRowEnd: `span ${rowSpan}`,
+                                        }}
+                                        variants={itemVariants}
+                                        onClick={() => openModal(index)}
+                                    >
+                                        <img
+                                            src={image.url}
+                                            alt={image.filename}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDelete(
+                                                        image.id,
+                                                        image.filename
+                                                    );
+                                                }}
+                                                className="p-3 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 hover:bg-red-600"
+                                                title="Hapus Gambar"
+                                            >
+                                                <Trash2 size={20} />
+                                            </button>
+                                        </div>
+                                        <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
+                                            <p className="text-white text-xs font-medium truncate">
+                                                {image.categories?.join(", ")}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })
                     )}
                 </motion.div>
+
+                {visibleCount < filteredImages.length && (
+                    <div className="text-center mt-8">
+                        <button
+                            onClick={() => setVisibleCount((prev) => prev + 10)}
+                            className="px-6 py-3  bg-gradient-to-br from-teal-200 via-teal-700 to-teal-400 rounded-full hover:opacity-85 transiton duration-300 text-white text-sm font-semibold"
+                        >
+                            Muat Lebih Banyak
+                        </button>
+                    </div>
+                )}
             </motion.div>
             <AnimatePresence>
                 {modalOpen && (

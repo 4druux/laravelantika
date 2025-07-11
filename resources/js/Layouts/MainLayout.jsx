@@ -6,7 +6,7 @@ import AppFooter from "@/Components/layout/AppFooter";
 import AppHeader from "@/Components/layout/AppHeader";
 
 export default function MainLayout({ children }) {
-    const { url } = usePage();
+    const { url, component } = usePage();
 
     const noLayoutPages = [
         "/login",
@@ -17,17 +17,17 @@ export default function MainLayout({ children }) {
         "/booking",
     ];
 
-    const showHeaderFooter = !noLayoutPages.some((path) =>
-        url.startsWith(path)
-    );
+    const showHeaderFooter =
+        !noLayoutPages.some((path) => url.startsWith(path)) &&
+        component !== "NotFoundPage";
 
     return (
-        <>      
+        <>
             <div className="min-h-screen bg-gray-50 mb-18 md:mb-0">
                 {showHeaderFooter && <AppHeader />}
                 <main>{children}</main>
                 {showHeaderFooter && <AppFooter />}
             </div>
-       </>
+        </>
     );
 }

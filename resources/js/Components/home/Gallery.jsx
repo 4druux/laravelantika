@@ -210,7 +210,7 @@ export default function Gallery() {
                 </div>
 
                 <motion.div
-                    key={selectedCategory + filteredImages.length}
+                    key={selectedCategory + visibleCount}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-min"
                     variants={containerVariants}
                     initial="hidden"
@@ -270,7 +270,7 @@ export default function Gallery() {
                     <div className="text-center mt-8">
                         <button
                             onClick={() => setVisibleCount((prev) => prev + 10)}
-                            className="px-6 py-3 bg-gradient-to-br from-teal-400 via-teal-700 to-teal-600 text-white text-sm font-semibold rounded-full hover:bg-none hover:bg-teal-600"
+                            className="px-6 py-3  bg-gradient-to-br from-teal-200 via-teal-700 to-teal-400 rounded-full hover:opacity-85 transiton duration-300 text-white text-sm font-semibold"
                         >
                             Muat Lebih Banyak
                         </button>

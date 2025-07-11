@@ -85,7 +85,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'email' => [
-            'unique' => 'Email ini sudah terdaftar.', 
+            'unique' => 'Email sudah terdaftar.', 
         ],
     ],
 

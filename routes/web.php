@@ -32,16 +32,27 @@ Route::get('/reset-password/{token}', function (string $token) {
 })->name('password.reset');
 
 
-Route::middleware(['auth'])->group(function () {
-   
-    Route::get('/admin/booking', function () {
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    
+    Route::get('/', function () {
+        return redirect('/admin/booking');
+    });
+
+    Route::get('/booking', function () {
         return Inertia::render('admin/BookingPage');
-    });
-    Route::get('/admin/upload-gambar', function () {
+    })->name('admin.booking');
+
+    Route::get('/upload-gambar', function () {
         return Inertia::render('admin/UploadGambarPage');
-    });
-    Route::get('/admin/kelola-galeri', function () {
+    })->name('admin.upload');
+
+    Route::get('/kelola-galeri', function () {
         return Inertia::render('admin/KelolaGaleriPage');
-    });
+    })->name('admin.gallery');
+});
+
+
+Route::fallback(function () {
+    return Inertia::render('NotFoundPage');
 });
 
